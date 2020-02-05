@@ -48,7 +48,7 @@ using namespace std;
 
 IntSet::IntSet()
 {
-   DumpData;
+   used = 0;
 }
 
 int IntSet::size() const
@@ -59,7 +59,7 @@ int IntSet::size() const
 
 bool IntSet::isEmpty() const
 {
-   return (used < 1); // dummy value returned
+   return (used < 1); 
 }
 
 bool IntSet::contains(int anInt) const
@@ -130,6 +130,8 @@ bool IntSet::add(int anInt)
       cerr << msg << endl;
       return false;
    }
+   if(contains(anInt))
+      return false;
    data[used] = anInt;
    ++used;   
    return true; 
@@ -137,12 +139,36 @@ bool IntSet::add(int anInt)
 
 bool IntSet::remove(int anInt)
 {
-   cout << "remove() is not implemented yet..." << endl;
-   return false; // dummy value returned
+   if(contains(anInt))
+   {
+      int location = 0;
+      for(int i = 0; i < used; ++i)
+      {
+         if(data[i] == anInt)
+            location = i;
+      }
+      if(location == MAX_SIZE-1)
+         data[location] = 0;
+      else
+      {
+         for( ;location < used-1; ++location)
+         {
+            data[location] = data[location+1];
+         }
+      }
+      --used;
+      return true;
+   }
+   return false;
 }
 
 bool equal(const IntSet& is1, const IntSet& is2)
 {
-   cout << "equal() is not implemented yet..." << endl;
-   return false; // dummy value returned
+   if(is1.size() == is2.size())
+   {
+      if(is1.isEmpty && is2.isEmpty())
+         return true;
+      
+   }
+   return false; 
 }
