@@ -80,7 +80,7 @@
 #include <cassert>
 using namespace std;
 
-void IntSet::resize(int new_capacity)//############
+void IntSet::resize(int new_capacity)
 {
    if(new_capacity < used)
       new_capacity = used;
@@ -88,39 +88,60 @@ void IntSet::resize(int new_capacity)//############
       new_capacity = 1;
    if(new_capacity > capacity)
       new_capacity = (capacity + (capacity/2)) + 1;
-
+   
    capacity = new_capacity;
    int* newData = new  int[capacity];
    for(int i = 0; i < used; ++i)
       newData[i] = data[i];
    delete [] data;
-   data = newData;
+   try
+   {
+      data = newData;
+   }
+   catch(exception& e)
+   {
+      cout << e.what();
+   }
+
 }
 
-IntSet::IntSet(int initial_capacity): data(new int[initial_capacity]), capacity(initial_capacity), used(0){}//############
-
-IntSet::IntSet(const IntSet& src)
+IntSet::IntSet(int initial_capacity) : capacity(initial_capacity), used(0)
 {
-   cout << "copy constructor is not implemented yet..." << endl;
+   if(capacity < 1)
+      capacity = DEFAULT_CAPACITY;
+   data = new int[capacity];
 }
 
-
-IntSet::~IntSet()
+IntSet::IntSet(const IntSet& src) : capacity(src.capacity), used(src.used)
 {
-   cout << "destructor is not implemented yet..." << endl;
+   data = new int[capacity];
+   for(int i = 0; i < used; ++i)
+      data[i] = src.data[i];
 }
+
+
+IntSet::~IntSet() {delete [] data;}
 
 IntSet& IntSet::operator=(const IntSet& rhs)
 {
-   cout << "operator=() is not implemented yet..." << endl;
+   if(this != &rhs)
+   {
+      int* newData = new int[rhs.capacity];
+      for(int i =0; i < rhs.used; ++i)
+         newData[i] = rhs.data[i];
+      delete [] data;
+      data = newData;
+      capacity = rhs.capacity;
+      used = rhs.used;
+   }
    return *this;
 }
 
-int IntSet::size() const {return used;}  //############
+int IntSet::size() const {return used;}  
 
-bool IntSet::isEmpty() const {return used < 1;}//############
+bool IntSet::isEmpty() const {return used < 1;}
 
-bool IntSet::contains(int anInt) const //############
+bool IntSet::contains(int anInt) const 
 {
    if(used == 0)
       return false;
@@ -135,10 +156,16 @@ bool IntSet::contains(int anInt) const //############
    return false;
 }
 
-bool IntSet::isSubsetOf(const IntSet& otherIntSet) const
+bool IntSet::isSubsetOf(const IntSet& otherIntSet) const 
 {
-   cout << "isSubsetOf() is not implemented yet..." << endl;
-   return false; // dummy value returned
+   if(this->isEmpty())
+      return true;
+   for(int i = 0; i < used; ++i)
+   {
+      if(!otherIntSet.contains(data[i]))
+         return false;
+   }
+   return true;
 }
 
 void IntSet::DumpData(ostream& out) const
@@ -153,28 +180,44 @@ void IntSet::DumpData(ostream& out) const
 
 IntSet IntSet::unionWith(const IntSet& otherIntSet) const
 {
-   cout << "unionWith() is not implemented yet..." << endl;
-   return IntSet(); // dummy IntSet object returned
+   IntSet temp;
+   for(int i = 0; i < used; ++i)
+      temp.add(data[i]);
+   for(int e = 0; e < otherIntSet.size(); ++e)
+   {
+      if(!contains(otherIntSet.data[e]))
+         temp.add(otherIntSet.data[e]);
+   }
+   return temp;
 }
 
 IntSet IntSet::intersect(const IntSet& otherIntSet) const
 {
-   cout << "intersect() is not implemented yet..." << endl;
-   return IntSet(); // dummy IntSet object returned
+   IntSet temp;
+   for(int i = 0; i < used; ++i)
+   {
+      if(otherIntSet.contains(data[i]))
+         temp.add(data[i]);
+   }
+   return temp; 
 }
 
-IntSet IntSet::subtract(const IntSet& otherIntSet) const
+IntSet IntSet::subtract(const IntSet& otherIntSet) const 
 {
-   cout << "subtract() is not implemented yet..." << endl;
-   return IntSet(); // dummy IntSet object returned
+   IntSet temp;
+   for(int i = 0; i < used; ++i)
+      temp.add(data[i]);
+   for(int e = 0; e < otherIntSet.size(); ++e)
+   {
+      if(temp.contains(otherIntSet.data[e]))
+         temp.remove(otherIntSet.data[e]);
+   }
+   return temp; 
 }
 
-void IntSet::reset()
-{
-   cout << "reset() is not implemented yet..." << endl;
-}
+void IntSet::reset(){used = 0;}
 
-bool IntSet::add(int anInt)
+bool IntSet::add(int anInt) 
 {
    if(contains(anInt))
       return false;
@@ -186,17 +229,37 @@ bool IntSet::add(int anInt)
       ++used;
       return true;
    }
-   
 }
 
-bool IntSet::remove(int anInt)
+bool IntSet::remove(int anInt) 
 {
-   cout << "remove() is not implemented yet..." << endl;
-   return false; // dummy value returned
+   if(contains(anInt))
+   {
+      int location = 0;
+      for(int i = 0; i < used; ++i)
+      {
+         if(data[i] == anInt)
+            location = i;
+      }
+      for( ;location < used-1; ++location)
+      {
+         data[location] = data[location+1];
+      }
+      --used;
+      return true;
+   }
+   else
+      return false;
 }
 
-bool operator==(const IntSet& is1, const IntSet& is2)
+bool operator==(const IntSet& is1, const IntSet& is2) 
 {
-   cout << "operator==() is not implemented yet..." << endl;
-   return false; // dummy value returned
+   if(is1.size() == is2.size())
+   {
+      if(is1.isEmpty() && is2.isEmpty())
+         return true;
+      if(is1.isSubsetOf(is2))
+         return true;
+   }
+   return false; 
 }

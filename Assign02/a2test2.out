@@ -1,0 +1,61 @@
+3 IntSet objects (is1 is2 is3) have been created.
+Enter choice: a read.
+Enter object # (1 = is1, 2 = is2, 3 = is3) 1 read.
+Enter integer value 1 read.
+1 added to is1
+Enter choice: a read.
+Enter object # (1 = is1, 2 = is2, 3 = is3) 1 read.
+Enter integer value 5 read.
+5 added to is1
+Enter choice: a read.
+Enter object # (1 = is1, 2 = is2, 3 = is3) 1 read.
+Enter integer value Re-enter integer value 1 read.
+1 not added to is1
+Enter choice: a read.
+Enter object # (1 = is1, 2 = is2, 3 = is3) 1 read.
+Enter integer value Re-enter integer value 1 read.
+1 not added to is1
+Enter choice: a read.
+Enter object # (1 = is1, 2 = is2, 3 = is3) 1 read.
+Enter integer value Re-enter integer value 1 read.
+1 not added to is1
+Enter choice: k read.
+Enter object # (1 = is1, 2 = is2, 3 = is3) 1 read.
+Enter integer value Re-enter integer value 1 read.
+1 removed from is1
+Enter choice: d read.
+Enter hybrid # (1 for is1, 23 for is2 and is3, 123 for is1, is2 and is3,...) 1 read.
+   is1: 5
+Enter choice: a read.
+Enter object # (1 = is1, 2 = is2, 3 = is3) 2 read.
+Enter integer value 1 read.
+1 added to is2
+Enter choice: a read.
+Enter object # (1 = is1, 2 = is2, 3 = is3) 2 read.
+Enter integer value 5 read.
+5 added to is2
+Enter choice: a read.
+Enter object # (1 = is1, 2 = is2, 3 = is3) 2 read.
+Enter integer value 30 read.
+30 added to is2
+Enter choice: a read.
+Enter object # (1 = is1, 2 = is2, 3 = is3) 3 read.
+Enter integer value 22 read.
+22 added to is3
+Enter choice: a read.
+Enter object # (1 = is1, 2 = is2, 3 = is3) 3 read.
+Enter integer value -1 read.
+-1 added to is3
+Enter choice: 1 read.
+1 is not a valid option...try again
+Enter choice: a read.
+Enter object # (1 = is1, 2 = is2, 3 = is3) 3 read.
+Enter integer value 0 read.
+0 added to is3
+Enter choice: a read.
+Enter object # (1 = is1, 2 = is2, 3 = is3) 1 read.
+Enter integer value -32768 read.
+-32768 added to is1
+Enter choice: q read.
+Quit option selected...bye
+Press Enter or Return when ready...
