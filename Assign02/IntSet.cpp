@@ -1,3 +1,7 @@
+/* Daniel Lepe
+   Data Structures 3358
+   02/12/19*/
+
 // FILE: IntSet.cpp - header file for IntSet class
 //       Implementation file for the IntStore class
 //       (See IntSet.h for documentation.)
@@ -76,15 +80,24 @@
 #include <cassert>
 using namespace std;
 
-void IntSet::resize(int new_capacity)
+void IntSet::resize(int new_capacity)//############
 {
-   cout << "resize() is not implemented yet..." << endl;
+   if(new_capacity < used)
+      new_capacity = used;
+   if(new_capacity < 1)
+      new_capacity = 1;
+   if(new_capacity > capacity)
+      new_capacity = (capacity + (capacity/2)) + 1;
+
+   capacity = new_capacity;
+   int* newData = new  int[capacity];
+   for(int i = 0; i < used; ++i)
+      newData[i] = data[i];
+   delete [] data;
+   data = newData;
 }
 
-IntSet::IntSet(int initial_capacity)
-{
-   cout << "IntSet(...) is not implemented yet..." << endl;
-}
+IntSet::IntSet(int initial_capacity): data(new int[initial_capacity]), capacity(initial_capacity), used(0){}//############
 
 IntSet::IntSet(const IntSet& src)
 {
@@ -103,22 +116,23 @@ IntSet& IntSet::operator=(const IntSet& rhs)
    return *this;
 }
 
-int IntSet::size() const
-{
-   cout << "size() is not implemented yet..." << endl;
-   return 0; // dummy value returned
-}
+int IntSet::size() const {return used;}  //############
 
-bool IntSet::isEmpty() const
-{
-   cout << "isEmpty() is not implemented yet..." << endl;
-   return false; // dummy value returned
-}
+bool IntSet::isEmpty() const {return used < 1;}//############
 
-bool IntSet::contains(int anInt) const
+bool IntSet::contains(int anInt) const //############
 {
-   cout << "contains() is not implemented yet..." << endl;
-   return false; // dummy value returned
+   if(used == 0)
+      return false;
+   else
+   {
+      for(int i = 0; i < used; ++i)
+      {
+         if(data[i] == anInt)
+            return true;
+      }
+   }
+   return false;
 }
 
 bool IntSet::isSubsetOf(const IntSet& otherIntSet) const
@@ -162,8 +176,17 @@ void IntSet::reset()
 
 bool IntSet::add(int anInt)
 {
-   cout << "add() is not implemented yet..." << endl;
-   return false; // dummy value returned
+   if(contains(anInt))
+      return false;
+   else
+   {
+      if(used >= capacity)
+         resize(used);
+      data[used] = anInt;
+      ++used;
+      return true;
+   }
+   
 }
 
 bool IntSet::remove(int anInt)
