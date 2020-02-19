@@ -46,25 +46,43 @@ using namespace std;
 namespace CS3358_SP2020
 {
    // CONSTRUCTORS and DESTRUCTOR
-   sequence::sequence(size_type initial_capacity)
+   sequence::sequence(size_type initial_capacity) : used(0), current_index(0),
+                                                      capacity(initial_capacity)
    {
-      cout << "sequence(size_type initial_capacity) not implemented yet" << endl;
+      if(initial_capacity == 0)
+         capacity = 1;
+
+      data = new value_type[capacity];
    }
 
-   sequence::sequence(const sequence& source)
+   sequence::sequence(const sequence& source) :used(source.used), 
+   current_index(source.current_index), capacity(source.capacity)
    {
-      cout << "sequence(const sequence& source) not implemented yet" << endl;
+      data = new value_type[capacity];
+
+      for(size_type i = 0; i < used; ++i)
+         data[i] = source.data[i];
    }
 
-   sequence::~sequence()
-   {
-      cout << "~sequence() not implemented yet" << endl;
-   }
+   sequence::~sequence() {delete [] data;}
 
    // MODIFICATION MEMBER FUNCTIONS
    void sequence::resize(size_type new_capacity)
    {
-      cout << "resize(size_type new_capacity) not implemented yet" << endl;
+      if(new_capacity < used)
+         new_capacity = used;
+      if(new_capacity == 0)
+         new_capacity = 1;
+      if(new_capacity > capacity)
+         new_capacity = (capacity + (capacity/2)) + 1;
+      
+      capacity = new_capacity;
+      value_type* newData = new value_type[capacity];
+      for(size_type i = 0; i < used; ++i)
+         newData[i] = data[i];
+      delete [] data;
+
+      data = newData;
    }
 
    void sequence::start()
@@ -99,22 +117,15 @@ namespace CS3358_SP2020
    }
 
    // CONSTANT MEMBER FUNCTIONS
-   sequence::size_type sequence::size() const
-   {
-      cout << "size() not implemented yet" << endl;
-      return 0; // dummy value returned
-   }
+   sequence::size_type sequence::size() const{return used;}
 
-   bool sequence::is_item() const
-   {
-      cout << "is_item() not implemented yet" << endl;
-      return false; // dummy value returned
-   }
+   bool sequence::is_item() const 
+   { return current_index >= used ? false : true; }
 
    sequence::value_type sequence::current() const
    {
-      cout << "current() not implemented yet" << endl;
-      return value_type(); // dummy value returned
+      assert(is_item());
+      return data[current_index];//fix
    }
 }
 
