@@ -87,22 +87,47 @@ namespace CS3358_SP2020
 
    void sequence::start()
    {
-      cout << "start() not implemented yet" << endl;
+      current_index = 0;
+      if(!is_item())
+         current_index = used;
    }
 
    void sequence::advance()
    {
-      cout << "advance() not implemented yet" << endl;
+      if(current_index >= used)
+         current_index = used;
+      else
+         ++current_index;      
    }
 
    void sequence::insert(const value_type& entry)
    {
-      cout << "insert(const value_type& entry) not implemented yet" << endl;
+      if(is_item())
+      {
+         data[current_index -1] = entry;
+      }
+      else
+      {
+         current_index = used;
+         data[used] = entry;
+         ++used;
+         if(used > capacity)
+            resize(used);
+      }
+      
    }
 
    void sequence::attach(const value_type& entry)
    {
-      cout << "attach(const value_type& entry) not implemented yet" << endl;
+      if(is_item())
+         data[current_index +1] = entry;
+      else
+         data[current_index] = entry;
+         
+      ++used;
+      if(used > capacity)
+         resize(used);
+      
    }
 
    void sequence::remove_current()
