@@ -88,8 +88,8 @@ namespace CS3358_SP2020
    void sequence::start()
    {
       current_index = 0;
-      if(!is_item())
-         current_index = used;
+      //if(!is_item())
+        // current_index = used;
    }
 
    void sequence::advance()
@@ -102,42 +102,94 @@ namespace CS3358_SP2020
 
    void sequence::insert(const value_type& entry)
    {
+      if(used+1 > capacity)
+         resize(used+1);
+      
+      //value_type temp, temp2;
       if(is_item())
       {
-         data[current_index -1] = entry;
+         /*for(size_type i = current_index; i > used; ++i)
+         {
+            temp = data[i];
+            temp2 = data[i+1];
+            data[i+1] = temp;
+
+
+         }*/
+         for(size_type i = used+1; i > current_index; --i)
+            data[i+1] = data[i];
+            
+      }
+      else
+         current_index = used;
+      data[current_index] = entry;
+      ++used;
+      /*if(is_item())
+      {
+         data[current_index] = entry;
       }
       else
       {
          current_index = used;
-         data[used] = entry;
+         data[current_index] = entry;
          ++used;
          if(used > capacity)
             resize(used);
-      }
+      }*/
       
    }
 
    void sequence::attach(const value_type& entry)
    {
+      if(used+1 > capacity)
+         resize(used+1);
+      
       if(is_item())
+      {
+         for(size_type i = current_index+1; i <= used; ++i)
+            data[i+1] = data[i];
+         data[current_index+1] = entry;
+      }
+      else
+      {
+         current_index = used;
+         data[current_index] = entry;
+      }
+      ++used;
+      /*if(is_item())
          data[current_index +1] = entry;
       else
          data[current_index] = entry;
          
       ++used;
       if(used > capacity)
-         resize(used);
+         resize(used);*/
       
    }
 
    void sequence::remove_current()
    {
-      cout << "remove_current() not implemented yet" << endl;
+      if(is_item())
+      {
+         for(size_type i = current_index; i < used; ++i)
+            data[i] = data[i+1];
+         --used;
+      }
    }
 
    sequence& sequence::operator=(const sequence& source)
    {
-      cout << "operator=(const sequence& source) not implemented yet" << endl;
+      if(this != &source)
+      {
+         value_type* newData = new value_type[source.capacity];
+         for(size_type i =0; i < source.used; ++i)
+            newData[i] = source.data[i];
+         delete [] data;
+         data = newData;
+         capacity = source.capacity;
+         used = source.used;
+         current_index = source.current_index;
+      }
       return *this;
    }
 
