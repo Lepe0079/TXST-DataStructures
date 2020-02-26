@@ -155,16 +155,7 @@ namespace CS3358_SP2020
          current_index = used;
          data[current_index] = entry;
       }
-      ++used;
-      /*if(is_item())
-         data[current_index +1] = entry;
-      else
-         data[current_index] = entry;
-         
-      ++used;
-      if(used > capacity)
-         resize(used);*/
-      
+      ++used;      
    }
 
    void sequence::remove_current()
