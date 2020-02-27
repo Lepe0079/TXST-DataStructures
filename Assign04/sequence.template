@@ -1,3 +1,6 @@
+/* Daniel Lepe
+   Data Structures 3358
+   02/26/20*/
 // FILE: sequence.template
 // CLASS IMPLEMENTED: sequence (see sequence.h for documentation).
 // INVARIANT for the sequence class:
