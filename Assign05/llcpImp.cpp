@@ -244,4 +244,32 @@ void ListClear(Node*& headPtr, int noMsg)
 }
 
 // definition of MakeTargetExistOnlyOnceAtTail of Assignment 5 Part 1
+void MakeTargetExistOnlyOnceAtTail(Node*& headPtr, int target)
+{
+   Node* newNode;
+   newNode->data = target;
+   newNode->link = 0;
 
+   Node* cursor = headPtr;
+   Node* preCursor = 0;
+   bool targetFound = false;
+
+   if(headPtr == 0)
+      headPtr = newNode;
+   else
+   {
+      while(headPtr !=0)
+      {
+         if(headPtr->data == target)
+         {
+            preCursor->link = cursor->link;
+            delete cursor;
+            cursor->link = 
+         }
+         preCursor = cursor;
+         cursor = cursor->link;
+      }
+   }
+
+
+}
