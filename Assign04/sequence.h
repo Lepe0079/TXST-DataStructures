@@ -1,3 +1,6 @@
+/* Daniel Lepe
+   Data Structures 3358
+   02/26/20*/
 // FILE: sequence.h
 //////////////////////////////////////////////////////////////////////
 // NOTE: This class implements a template for managing multiple types

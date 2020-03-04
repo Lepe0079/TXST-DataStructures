@@ -1,3 +1,6 @@
+/* Daniel Lepe
+   Data Structures 3358
+   02/12/19*/
 // FILE: sequenceTest.cpp
 // An interactive test program for the sequence class
 
