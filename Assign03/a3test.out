@@ -64,10 +64,86 @@ Testing that size() returns 3 ... Passed.
 Testing that is_item() returns true ... Passed.
 The cursor should be at item [1] of the sequence
 (counting the first item as [0]). I will advance the cursor
-to the end of the sequence, checking that each item is correct...
-    The cursor was moved off the sequence, but is_item still returns true.
-Failed.
-Test of the sequence's items failed.
+to the end of the sequence, checking that each item is correct...Passed.
+I'll call start() and look at the items one more time...
+The cursor should be at item [0] of the sequence
+(counting the first item as [0]). I will advance the cursor
+to the end of the sequence, checking that each item is correct...Passed.
+All tests passed for this sequence.
+
+Remove the 20, so entire sequence is now 10,30.
+Testing that size() returns 2 ... Passed.
+Testing that is_item() returns true ... Passed.
+The cursor should be at item [1] of the sequence
+(counting the first item as [0]). I will advance the cursor
+to the end of the sequence, checking that each item is correct...Passed.
+I'll call start() and look at the items one more time...
+The cursor should be at item [0] of the sequence
+(counting the first item as [0]). I will advance the cursor
+to the end of the sequence, checking that each item is correct...Passed.
+All tests passed for this sequence.
+
+Remove the 30, so entire sequence is now just 10 with no cursor.
+Testing that size() returns 1 ... Passed.
+Testing that is_item() returns false ... Passed.
+I'll call start() and look at the items one more time...
+All tests passed for this sequence.
+
+Set the cursor to the start and remove the 10.
+Testing that size() returns 0 ... Passed.
+Testing that is_item() returns false ... Passed.
+I'll call start() and look at the items one more time...
+All tests passed for this sequence.
+
+Using attach to build another sequence with 10,30.
+Insert a 20 before the 30, so entire sequence is 10,20,30.
+Testing that size() returns 3 ... Passed.
+Testing that is_item() returns true ... Passed.
+The cursor should be at item [1] of the sequence
+(counting the first item as [0]). I will advance the cursor
+to the end of the sequence, checking that each item is correct...Passed.
+I'll call start() and look at the items one more time...
+The cursor should be at item [0] of the sequence
+(counting the first item as [0]). I will advance the cursor
+to the end of the sequence, checking that each item is correct...Passed.
+All tests passed for this sequence.
+
+Remove the 20, so entire sequence is now 10,30.
+Testing that size() returns 2 ... Passed.
+Testing that is_item() returns true ... Passed.
+The cursor should be at item [1] of the sequence
+(counting the first item as [0]). I will advance the cursor
+to the end of the sequence, checking that each item is correct...Passed.
+I'll call start() and look at the items one more time...
+The cursor should be at item [0] of the sequence
+(counting the first item as [0]). I will advance the cursor
+to the end of the sequence, checking that each item is correct...Passed.
+All tests passed for this sequence.
+
+Set the cursor to the start and remove the 10,
+so the sequence should now contain just 30.
+Testing that size() returns 1 ... Passed.
+Testing that is_item() returns true ... Passed.
+The cursor should be at item [0] of the sequence
+(counting the first item as [0]). I will advance the cursor
+to the end of the sequence, checking that each item is correct...Passed.
+I'll call start() and look at the items one more time...
+The cursor should be at item [0] of the sequence
+(counting the first item as [0]). I will advance the cursor
+to the end of the sequence, checking that each item is correct...Passed.
+All tests passed for this sequence.
+
+Remove the 30 from the sequence, resulting in an empty sequence.
+Testing that size() returns 0 ... Passed.
+Testing that is_item() returns false ... Passed.
+I'll call start() and look at the items one more time...
+All tests passed for this sequence.
+
+Build a new sequence by inserting 30, 10, 20 (so the sequence
+is 20, then 10, then 30). Then remove the 20.
+Testing that size() returns 2 ... Passed.
+Testing that is_item() returns true ... Failed.
+Basic test of size() or is_item() failed.
 
 Test 3 failed.
 END OF TEST 3.

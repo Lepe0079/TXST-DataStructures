@@ -102,41 +102,26 @@ namespace CS3358_SP2020
 
    void sequence::insert(const value_type& entry)
    {
-      if(used+1 > capacity)
-         resize(used+1);
-      
-      //value_type temp, temp2;
-      if(is_item())
+      assert( size() < capacity );
+
+      size_type i;
+
+      if ( ! is_item() )
       {
-         /*for(size_type i = current_index; i > used; ++i)
-         {
-            temp = data[i];
-            temp2 = data[i+1];
-            data[i+1] = temp;
-
-
-         }*/
-         for(size_type i = used+1; i > current_index; --i)
-            data[i+1] = data[i];
-            
+         if (used > 0)
+            for (i = used; i >= 1; --i)
+               data[i] = data[i - 1];
+         data[0] = entry;
+         current_index = 0;
       }
       else
-         current_index = used;
-      data[current_index] = entry;
+      {
+         ++current_index;
+         for (i = used; i > current_index; --i)
+            data[i] = data[i - 1];
+         data[current_index] = entry;
+      }
       ++used;
-      /*if(is_item())
-      {
-         data[current_index] = entry;
-      }
-      else
-      {
-         current_index = used;
-         data[current_index] = entry;
-         ++used;
-         if(used > capacity)
-            resize(used);
-      }*/
-      
    }
 
    void sequence::attach(const value_type& entry)
