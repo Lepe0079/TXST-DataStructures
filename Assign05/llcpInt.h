@@ -1,3 +1,6 @@
+/* Daniel Lepe
+   Data Structures 3358
+   03/04/20*/
 #ifndef ASSIGN05P1_H
 #define ASSIGN05P1_H
 
@@ -22,5 +25,6 @@ double FindAverage(Node* headPtr);
 void   ListClear(Node*& headPtr, int noMsg = 0);
 
 // prototype of MakeTargetExistOnlyOnceAtTail of Assignment 5 Part 1
+void MakeTargetExistOnlyOnceAtTail(Node*& headPtr, int target);
 
 #endif

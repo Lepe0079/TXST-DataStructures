@@ -1,3 +1,7 @@
+/* Daniel Lepe
+   Data Structures 3358
+   03/04/20*/
+
 #include <iostream>
 #include <cstdlib>
 #include "llcpInt.h"
@@ -246,30 +250,38 @@ void ListClear(Node*& headPtr, int noMsg)
 // definition of MakeTargetExistOnlyOnceAtTail of Assignment 5 Part 1
 void MakeTargetExistOnlyOnceAtTail(Node*& headPtr, int target)
 {
-   Node* newNode;
+   Node* newNode = new Node;
+   Node* current = headPtr, *prev;
    newNode->data = target;
    newNode->link = 0;
 
-   Node* cursor = headPtr;
-   Node* preCursor = 0;
-   bool targetFound = false;
-
-   if(headPtr == 0)
-      headPtr = newNode;
+   if(headPtr == NULL)
+      headPtr = newNode; 
    else
    {
-      while(headPtr !=0)
+      while(headPtr->data == target && headPtr->link != 0)
       {
-         if(headPtr->data == target)
+
+         current = headPtr->link;
+         delete headPtr;
+         headPtr = current;
+      }  
+      prev = current; 
+
+         while(current != 0)
          {
-            preCursor->link = cursor->link;
-            delete cursor;
-            cursor->link = 
-         }
-         preCursor = cursor;
-         cursor = cursor->link;
+            if(current->data == target && current->link != 0)
+            {
+               prev->link = current->link;
+               delete current;
+               current = prev;   
+            }
+            else{
+            prev = current;
+            current = current->link;}
+            
       }
+      if(current == 0 && prev->data != target)
+            prev->link = newNode;
    }
-
-
 }
