@@ -10,7 +10,7 @@ namespace CS3358_SP2020_A5P2
    class cnPtrQueue
    {
    public:
-      typedef std::size_t size_type;
+      typedef std::size_t size_type;//
       cnPtrQueue();
       bool empty() const;
       size_type size() const; // returns # of items in queue
