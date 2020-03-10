@@ -1,3 +1,6 @@
+/* Daniel Lepe
+   Data Structures 3358
+   03/10/20*/
 #include "cnPtrQueue.h"
 #include <cassert>
 using namespace std;
@@ -13,7 +16,7 @@ namespace CS3358_SP2020_A5P2
    CS3358_SP2020_A5P2::CNode* cnPtrQueue::front()
    {
       assert(!empty());
-      if(inStack.empty())
+      if(outStack.empty())
       {
          do
          {
@@ -32,7 +35,8 @@ namespace CS3358_SP2020_A5P2
 
    void cnPtrQueue::pop()
    {
-      if(inStack.empty())
+      assert(!empty());
+      if(outStack.empty())
       {
          do
          {

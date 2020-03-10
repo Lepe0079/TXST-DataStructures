@@ -1,3 +1,6 @@
+/* Daniel Lepe
+   Data Structures 3358
+   03/10/20*/
 #include "nodes_LLoLL.h"
 #include "cnPtrQueue.h"
 #include <iostream>
@@ -54,6 +57,23 @@ namespace CS3358_SP2020_A5P2
    // do breadth-first (level) traversal and print data
    void ShowAll_BF(PNode* pListHead, ostream& outs)
    {
-      // to be implemented (part of assignment)
+      if(pListHead == 0)
+         return;
+      cnPtrQueue BFqueue;
+      CNode* cursor;
+      while (pListHead != 0)
+      {
+         if(pListHead->data !=0)
+            BFqueue.push(pListHead->data);
+         pListHead = pListHead->link;
+      }
+      while(!BFqueue.empty())
+      {
+         cursor = BFqueue.front();
+         BFqueue.pop();
+         outs << cursor->data << "  ";
+         if(cursor->link != 0)
+            BFqueue.push(cursor->link);
+      }
    }
 }
