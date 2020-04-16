@@ -1,3 +1,6 @@
+/* Daniel Lepe
+   Data Structures 3358
+   04/08/20*/
 #include <iostream>
 #include <cstdlib>
 #include "llcpInt.h"
@@ -243,5 +246,35 @@ void ListClear(Node*& headPtr, int noMsg)
         << endl;
 }
 
-// definition of SortedMergeRecur
 
+void SortedMergeRecur(Node*& headX, Node*& headY, Node*& headZ)
+{  
+   if(headX != 0 && headY !=0)
+   {
+      if(headX->data < headY->data)
+      {
+         headZ = headX;
+         headX = headX->link;
+      }
+      else
+      {
+         headZ = headY;
+         headY = headY->link;
+      }
+   }
+   else if(headX != 0)
+   {
+      headZ = headX;
+      headX = headX->link;
+   }
+   else if(headY != 0)
+   {
+      headZ = headY;
+      headY = headY->link;
+   }
+   
+
+   if(headX == 0 && headY == 0)
+      return;
+   SortedMergeRecur(headX, headY, headZ->link);
+}

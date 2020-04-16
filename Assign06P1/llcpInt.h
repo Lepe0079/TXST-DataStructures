@@ -1,3 +1,6 @@
+/* Daniel Lepe
+   Data Structures 3358
+   04/08/20*/
 #ifndef LLCP_INT_H
 #define LLCP_INT_H
 
@@ -21,7 +24,7 @@ void   FindMinMax(Node* headPtr, int& minValue, int& maxValue);
 double FindAverage(Node* headPtr);
 void   ListClear(Node*& headPtr, int noMsg = 0);
 
-// prototype of SortedMergeRecur
+void SortedMergeRecur(Node*& headX, Node*& headY, Node*& headZ);
 
 
 #endif
