@@ -88,54 +88,80 @@ namespace CS3358_SP2020_A7
 
    p_queue::p_queue(size_type initial_capacity)
    {
-      cerr << "p_queue() not implemented yet" << endl;
+      if(initial_capacity <= 0)
+         initial_capacity = DEFAULT_CAPACITY;
+      capacity = initial_capacity;
+      used = 0;
+      heap = new ItemType[capacity];
    }
 
-   p_queue::p_queue(const p_queue& src)
+   p_queue::p_queue(const p_queue& src) : capacity(src.capacity), used(src.used)
    {
-      cerr << "p_queue(const p_queue&) not implemented yet" << endl;
+      heap = new ItemType[capacity];
+      for(size_type i = 0; i < used; ++i)
+         heap[i] = src.heap[i];
    }
 
-   p_queue::~p_queue()
-   {
-      cerr << "~p_queue() not implemented yet" << endl;
-   }
+   p_queue::~p_queue(){delete [] heap;}
 
    // MODIFICATION MEMBER FUNCTIONS
    p_queue& p_queue::operator=(const p_queue& rhs)
    {
-      cerr << "operator=(const p_queue&) not implemented yet" << endl;
+      if(this != &rhs)
+      {
+         ItemType* newData = new ItemType[rhs.capacity];
+         for(size_type i = 0; i < rhs.used; ++i)
+            newData[i] = rhs.heap[i];
+         delete [] heap;
+         heap = newData;
+         capacity = rhs.capacity;
+         used = rhs.used;
+      }
       return *this;
    }
 
    void p_queue::push(const value_type& entry, size_type priority)
    {
-      cerr << "push(const value_type&, size_type) not implemented yet" << endl;
+      if(used == capacity)
+         resize((capacity*2)+1);
+      heap[used].data = entry;
+      heap[used].priority = priority;
+      size_type currIndex = used;
+      ++used;
+
+      //heapify up
+      while(currIndex > 0 && (heap[currIndex].priority > parent_priority(currIndex)))
+      {
+         swap_with_parent(currIndex);
+         currIndex = parent_index(currIndex);
+      }
    }
 
    void p_queue::pop()
    {
-      cerr << "pop() not implemented yet" << endl;
+      assert(size() > 0);
+      heap[0] = heap[used-1];
+      --used;
+
+      //reheapify down
+      size_type currIndex = 0;
+      while(heap[currIndex].priority < big_child_priority(currIndex))
+      {
+         currIndex = big_child_index(currIndex);
+         swap_with_parent(currIndex);
+      }      
    }
 
    // CONSTANT MEMBER FUNCTIONS
 
-   p_queue::size_type p_queue::size() const
-   {
-      cerr << "size() not implemented yet" << endl;
-      return 0; // dummy return value
-   }
+   p_queue::size_type p_queue::size() const {return used;}
 
-   bool p_queue::empty() const
-   {
-      cerr << "empty() not implemented yet" << endl;
-      return false; // dummy return value
-   }
+   bool p_queue::empty() const {return used == 0;}
 
    p_queue::value_type p_queue::front() const
    {
-      cerr << "front() not implemented yet" << endl;
-      return value_type(); // dummy return value
+      assert(used > 0);
+      return heap[0].data;
    }
 
    // PRIVATE HELPER FUNCTIONS
@@ -148,7 +174,24 @@ namespace CS3358_SP2020_A7
    //       NOTE: All existing items in the p_queue are preserved and
    //             used remains unchanged.
    {
-      cerr << "resize(size_type) not implemented yet" << endl;
+      if(new_capacity < used)
+         capacity = used;
+      else
+         capacity = new_capacity;
+      
+      ItemType* newData = new ItemType[capacity];
+      for(size_type i = 0; i < used; ++i)
+         newData[i] = heap[i];
+      delete [] heap;
+      try
+      {
+         heap = newData;
+      }
+      catch(const std::exception& e)
+      {
+         std::cerr << e.what();
+      }
+      
    }
 
    bool p_queue::is_leaf(size_type i) const
@@ -156,8 +199,8 @@ namespace CS3358_SP2020_A7
    // Post: If the item at heap[i] has no children, true has been
    //       returned, otherwise false has been returned.
    {
-      cerr << "is_leaf(size_type) not implemented yet" << endl;
-      return false; // dummy return value
+      assert(i < used);
+      return (i >= (used/2 + 1));
    }
 
    p_queue::size_type
@@ -166,8 +209,8 @@ namespace CS3358_SP2020_A7
    // Post: The index of "the parent of the item at heap[i]" has
    //       been returned.
    {
-      cerr << "parent_index(size_type) not implemented yet" << endl;
-      return 0; // dummy return value
+      assert((i>0) && (i<used));
+      return (i-1)/2;
    }
 
    p_queue::size_type
@@ -176,8 +219,8 @@ namespace CS3358_SP2020_A7
    // Post: The priority of "the parent of the item at heap[i]" has
    //       been returned.
    {
-      cerr << "parent_priority(size_type) not implemented yet" << endl;
-      return 0; // dummy return value
+      assert((i>0) && (i<used));
+      return heap[parent_index(i)].priority;
    }
 
    p_queue::size_type
@@ -188,8 +231,13 @@ namespace CS3358_SP2020_A7
    //       (The bigger child is the one whose priority is no smaller
    //       than that of the other child, if there is one.)
    {
-      cerr << "big_child_index(size_type) not implemented yet" << endl;
-      return 0; // dummy return value
+      //child 1 = i*2 + 1 
+      //child 2 = i*2 + 2 where i is a parent node
+      assert(!is_leaf(i)); 
+      if(heap[(i*2)+1].priority > heap[(i*2) + 2].priority)
+         return ((i*2) + 1);
+      else
+         return ((i*2) +2);
    }
 
    p_queue::size_type
@@ -200,15 +248,18 @@ namespace CS3358_SP2020_A7
    //       (The bigger child is the one whose priority is no smaller
    //       than that of the other child, if there is one.)
    {
-      cerr << "big_child_priority(size_type) not implemented yet" << endl;
-      return 0; // dummy return value
+      assert(!is_leaf(i));
+      return heap[big_child_index(i)].priority;
    }
 
    void p_queue::swap_with_parent(size_type i)
    // Pre:  (i > 0) && (i < used)
    // Post: The item at heap[i] has been swapped with its parent.
    {
-      cerr << "swap_with_parent(size_type) not implemented yet" << endl;
+      assert((i>0) && (i<used));
+      ItemType temp = heap[i];
+      heap[i] = heap[parent_index(i)];
+      heap[parent_index(i)] = temp;
    }
 }
 
