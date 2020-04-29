@@ -86,37 +86,41 @@ namespace CS3358_SP2020_A7
 
    // CONSTRUCTORS AND DESTRUCTOR
 
-   p_queue::p_queue(size_type initial_capacity)
+   p_queue::p_queue(size_type initial_capacity) : capacity(initial_capacity), used(0)
    {
-      if(initial_capacity <= 0)
-         initial_capacity = DEFAULT_CAPACITY;
-      capacity = initial_capacity;
-      used = 0;
+      if(initial_capacity < 1)
+         capacity = DEFAULT_CAPACITY;
       heap = new ItemType[capacity];
    }
 
    p_queue::p_queue(const p_queue& src) : capacity(src.capacity), used(src.used)
    {
       heap = new ItemType[capacity];
-      for(size_type i = 0; i < used; ++i)
+      for(size_type i = 0; i < capacity; ++i)
          heap[i] = src.heap[i];
    }
 
-   p_queue::~p_queue(){delete [] heap;}
+   p_queue::~p_queue()
+   {
+      delete [] heap;
+      heap = 0;
+   }
 
    // MODIFICATION MEMBER FUNCTIONS
    p_queue& p_queue::operator=(const p_queue& rhs)
    {
-      if(this != &rhs)
-      {
-         ItemType* newData = new ItemType[rhs.capacity];
-         for(size_type i = 0; i < rhs.used; ++i)
-            newData[i] = rhs.heap[i];
-         delete [] heap;
-         heap = newData;
-         capacity = rhs.capacity;
-         used = rhs.used;
-      }
+      if(this == &rhs)
+         return *this;
+   
+      ItemType* newData = new ItemType[rhs.capacity];
+
+      for(size_type i = 0; i < rhs.used; ++i)
+         newData[i] = rhs.heap[i];
+
+      delete [] heap;
+      heap = newData;
+      capacity = rhs.capacity;
+      used = rhs.used;
       return *this;
    }
 
@@ -140,12 +144,18 @@ namespace CS3358_SP2020_A7
    void p_queue::pop()
    {
       assert(size() > 0);
+      if(used == 1)
+      {
+         --used;
+         return;
+      }
+      
       heap[0] = heap[used-1];
       --used;
 
       //reheapify down
       size_type currIndex = 0;
-      while(heap[currIndex].priority < big_child_priority(currIndex))
+      while(!is_leaf(currIndex) && heap[currIndex].priority < big_child_priority(currIndex))
       {
          currIndex = big_child_index(currIndex);
          swap_with_parent(currIndex);
@@ -180,8 +190,10 @@ namespace CS3358_SP2020_A7
          capacity = new_capacity;
       
       ItemType* newData = new ItemType[capacity];
+
       for(size_type i = 0; i < used; ++i)
          newData[i] = heap[i];
+
       delete [] heap;
       try
       {
@@ -200,7 +212,7 @@ namespace CS3358_SP2020_A7
    //       returned, otherwise false has been returned.
    {
       assert(i < used);
-      return (i >= (used/2 + 1));
+      return (((i*2)+1) >= used);
    }
 
    p_queue::size_type
