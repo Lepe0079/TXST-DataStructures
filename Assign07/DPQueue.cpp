@@ -130,7 +130,7 @@ namespace CS3358_SP2020_A7
          resize((capacity*2)+1);
       heap[used].data = entry;
       heap[used].priority = priority;
-      size_type currIndex = used;
+      size_type currIndex = used;//used for tracking
       ++used;
 
       //heapify up
@@ -154,7 +154,7 @@ namespace CS3358_SP2020_A7
       --used;
 
       //reheapify down
-      size_type currIndex = 0;
+      size_type currIndex = 0;//used for tracking
       while(!is_leaf(currIndex) && heap[currIndex].priority < big_child_priority(currIndex))
       {
          currIndex = big_child_index(currIndex);
@@ -193,14 +193,7 @@ namespace CS3358_SP2020_A7
          newData[i] = heap[i];
 
       delete [] heap;
-      try
-      {
-         heap = newData;
-      }
-      catch(const std::exception& e)
-      {
-         std::cerr << e.what();
-      }
+      heap = newData;
       capacity = new_capacity;
    }
 
@@ -220,7 +213,7 @@ namespace CS3358_SP2020_A7
    //       been returned.
    {
       assert((i>0) && (i<used));
-      return (i-1)/2;
+      return ((i-1)/2);
    }
 
    p_queue::size_type
@@ -241,13 +234,15 @@ namespace CS3358_SP2020_A7
    //       (The bigger child is the one whose priority is no smaller
    //       than that of the other child, if there is one.)
    {
-      //child 1 = i*2 + 1 
-      //child 2 = i*2 + 2 where i is a parent node
       assert(!is_leaf(i)); 
-      if(heap[(i*2)+1].priority > heap[(i*2) + 2].priority)
-         return ((i*2) + 1);
+
+      size_type childOne = (i*2)+1, 
+                  childTwo = childOne+1;
+
+      if(heap[childOne].priority > heap[childTwo].priority)
+         return childOne;
       else
-         return ((i*2) +2);
+         return childTwo;
    }
 
    p_queue::size_type
