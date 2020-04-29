@@ -1,3 +1,7 @@
+/* Daniel Lepe
+   Data Structures 3358
+   04/28/20*/
+
 // FILE: DPQueue.cpp
 // IMPLEMENTS: p_queue (see DPQueue.h for documentation.)
 //
