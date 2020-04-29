@@ -185,11 +185,9 @@ namespace CS3358_SP2020_A7
    //             used remains unchanged.
    {
       if(new_capacity < used)
-         capacity = used;
-      else
-         capacity = new_capacity;
+         new_capacity = used;
       
-      ItemType* newData = new ItemType[capacity];
+      ItemType* newData = new ItemType[new_capacity];
 
       for(size_type i = 0; i < used; ++i)
          newData[i] = heap[i];
@@ -203,7 +201,7 @@ namespace CS3358_SP2020_A7
       {
          std::cerr << e.what();
       }
-      
+      capacity = new_capacity;
    }
 
    bool p_queue::is_leaf(size_type i) const
