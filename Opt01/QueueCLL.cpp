@@ -1,3 +1,7 @@
+/* Daniel Lepe
+   Data Structures 3358
+   05/05/20*/
+
 // FILE: QueueCLL.cpp
 // IMPLEMENTS: QueueCLL (see QueueCLL.h for documentation.)
 //
@@ -43,7 +47,14 @@ QueueCLL::QueueCLL(const QueueCLL& src) : numItems(src.numItems)
 
 QueueCLL::~QueueCLL()
 {
-   Node* cursor = rear_ptr->link;
+   if(!rear_ptr)//short case
+   {
+      delete rear_ptr;
+      rear_ptr = 0;
+      return; 
+   }
+
+   Node* cursor = rear_ptr;
    Node* next;
    while(cursor != rear_ptr)
    {
@@ -51,11 +62,10 @@ QueueCLL::~QueueCLL()
       delete cursor;
       cursor = next;
    }
-   delete rear_ptr;
-
+   delete cursor;
    rear_ptr = 0;
    cursor = 0;
-   next = 0;
+   next = 0; 
 }
 
 QueueCLL& QueueCLL::operator=(const QueueCLL& rhs)
