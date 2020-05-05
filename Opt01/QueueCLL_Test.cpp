@@ -27,41 +27,40 @@ int main()
 
    // testing empty(), front() and pop()
    while(!q1.empty())
-   {
-      cout << q1.front() << ' ';
-      q1.pop();
-   }
+      {
+         cout << q1.front() << ' ';
+         q1.pop();
+            }
 
-   cout << endl;
+               cout << endl;
 
-   // testing peek()
-   if ( ! q2.empty() )
-   {
-      cout << q2.peek(2) << endl;
-      cout << q2.peek(4) << endl;
-      cout << q2.peek(12) << endl;
-      cout << endl;
-   }
+                  // testing peek()
+                     if ( ! q2.empty() )
+                        {
+                           cout << q2.peek(2) << endl;
+                              cout << q2.peek(4) << endl;
+                                 cout << q2.peek(12) << endl;
+                                    cout << endl;
+                                       }
+                                          // testing operator=
+                                             q5 = q4;
+                                                while( ! q5.empty() )
+                                                   {
+                                                      cout << q5.front() << ' ';
+                                                         q5.pop();
+                                                            }
 
-   // testing operator=
-   q5 = q4;
-   while( ! q5.empty() )
-   {
-      cout << q5.front() << ' ';
-      q5.pop();
-   }
+                                                               cout << endl;
 
-   cout << endl;
+                                                                  // testing copy constructor
+QueueCLL q6(q4);
+                                                                           while( ! q4.empty() )
+                                                                              {
+cout << q4.front() << ' ';
+q4.pop();
+}
 
-   // testing copy constructor
-   QueueCLL q6(q4);
-   while( ! q4.empty() )
-   {
-      cout << q4.front() << ' ';
-      q4.pop();
-   }
-
-   cout << endl;
+cout << endl;
 
    return EXIT_SUCCESS;
 }

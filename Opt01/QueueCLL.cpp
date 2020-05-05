@@ -18,58 +18,138 @@ using namespace std;
 
 #include "QueueCLL.h"   
 
-QueueCLL::QueueCLL()
+QueueCLL::QueueCLL() : numItems(0)
 {
-   cerr << "Not implemented yet" << endl;
+   rear_ptr = new Node;
+   rear_ptr->link = rear_ptr;
+   rear_ptr->data = -1;
 }
 
 QueueCLL::QueueCLL(const QueueCLL& src) : numItems(src.numItems)
 {
-   cerr << "Not implemented yet" << endl;
+   Node* cursor = src.rear_ptr->link;
+   rear_ptr = new Node;
+   rear_ptr->link = rear_ptr;
+   rear_ptr->data = -1;
+   numItems = 0;
+
+   while(numItems != src.numItems)
+   {
+      push(cursor->data);
+      cursor = cursor->link;
+   }
+
 }
 
 QueueCLL::~QueueCLL()
 {
-   cerr << "Not implemented yet" << endl;
+   Node* cursor = rear_ptr->link;
+   Node* next;
+   while(cursor != rear_ptr)
+   {
+      next = cursor->link;
+      delete cursor;
+      cursor = next;
+   }
+   delete rear_ptr;
+
+   rear_ptr = 0;
+   cursor = 0;
+   next = 0;
 }
 
 QueueCLL& QueueCLL::operator=(const QueueCLL& rhs)
 {
-   cerr << "Not implemented yet" << endl;
+   if(this == &rhs)//self case
+      return *this;
+
+   if(rhs.numItems == 0)//zero case
+   {
+      while(!empty())
+         pop();
+      rear_ptr->data = -1;
+      rear_ptr->link = rear_ptr;
+      numItems = 0;
+      return *this;
+   }
+   
+   Node* newData = new Node;
+   Node* rhsCursor = rhs.rear_ptr;
+
+   newData->link = newData;
+   newData->data = rhsCursor->data;
+   
+   while(!empty())
+      pop();
+   
+   delete rear_ptr;
+   rear_ptr = newData;
+   
+   while(numItems < rhs.numItems)
+   {
+      rhsCursor = rhsCursor->link;
+      push(rhsCursor->data);
+   }
    return *this;
 }
 
 void QueueCLL::push(const value_type& entry)
 {
-   cerr << "Not implemented yet" << endl;
+   if(numItems == 0)
+   {
+      rear_ptr->data = entry;
+      ++numItems;
+      return;
+   }
+
+   Node* newData = new Node;
+   newData->data = entry;
+   newData->link = rear_ptr->link;
+   rear_ptr->link = newData;
+   rear_ptr = newData;
+
+   ++numItems;   
+   
 }
 
 QueueCLL::value_type QueueCLL::front( ) const
 {
-   cerr << "Not implemented yet" << endl;
-   return 0; // dummy return value
+   assert(size() > 0);
+   return rear_ptr->link->data;
 }
 
 void QueueCLL::pop( )
 {
-   cerr << "Not implemented yet" << endl;
+   assert(size() > 0);
+   Node* temp = rear_ptr->link;
+   rear_ptr->link = temp->link;
+   delete temp;
+   temp = 0;
+   --numItems;
 }
 
-QueueCLL::size_type QueueCLL::size() const
-{
-   cerr << "Not implemented yet" << endl;
-   return 0; // dummy return value
-}
+QueueCLL::size_type QueueCLL::size() const {return numItems;}
 
-bool QueueCLL::empty() const
-{
-   cerr << "Not implemented yet" << endl;
-   return false; // dummy return value
-}
+bool QueueCLL::empty() const {return (numItems == 0);}
 
 QueueCLL::value_type QueueCLL::peek(size_type n) const
 {
-   cerr << "Not implemented yet" << endl;
-   return 0; // dummy return value
+   assert(size() > 0);
+   if(rear_ptr->link == rear_ptr)
+      return rear_ptr->data;
+
+   size_type traversal = 0;
+
+   if(n > numItems)
+      traversal = n % numItems;//shorten the trip
+   else
+      traversal = n;
+
+   Node* index = rear_ptr->link;
+
+   for(size_type i = 1; i < traversal; ++i)
+      index = index->link;
+
+   return index->data;
 }
 
